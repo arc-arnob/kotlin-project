@@ -53,9 +53,6 @@ Track all deposit and withdrawal actions using a `Transaction` interface and sto
 - Expose `getTransactions(): List<Transaction>` that is read-only from outside
 
 ---
-
-## 🚧 Problem In Progress
-
 ### 5. Transfer Money Between Accounts
 
 **Problem:**  
@@ -76,3 +73,10 @@ Design a `TransferTransaction` that allows transferring funds from one `BankAcco
 - All features were developed using **Test-Driven Development (TDD)**
 - Each problem statement has one or more associated unit tests
 - Tests use **JUnit 5**
+
+---
+## 🚧 Problem In Progress
+
+### 6: Introduce a Transaction Processor (SRP + DIP + OCP)
+**Problem:**
+**Requirements**

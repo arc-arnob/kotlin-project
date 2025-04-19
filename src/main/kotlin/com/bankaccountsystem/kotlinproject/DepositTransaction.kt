@@ -1,7 +1,7 @@
 package com.bankaccountsystem.kotlinproject
 
 class DepositTransaction(override val amount: Double): Transaction {
-    override fun applyTo(balance: Double): Double {
-        return balance + amount;
+    override fun processWith(account: BankAccount, processor: TransactionProcessor) {
+        processor.processDeposit(account, this)
     }
 }

@@ -14,8 +14,16 @@ class BankAccount(private val id: String) {
     }
 
     fun applyTransaction(transaction: Transaction){
-        balance = transaction.applyTo(balance);
-        transactions.add(transaction)
+        balance = when (transaction) {
+            is DepositTransaction    -> balance + transaction.amount
+            is WithdrawTransaction   -> {
+                if (transaction.amount > balance)
+                    throw IllegalArgumentException("Insufficient balance")
+                balance - transaction.amount
+            }
+            else -> balance
+        }
+        transactions += transaction
     }
-
 }
+

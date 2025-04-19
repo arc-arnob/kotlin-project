@@ -75,7 +75,6 @@ Design a `TransferTransaction` that allows transferring funds from one `BankAcco
 - Tests use **JUnit 5**
 
 ---
-## 🚧 Problem In Progress
 
 ### 6: Introduce a Transaction Processor (SRP + DIP + OCP)
 **Problem:**  
@@ -83,3 +82,23 @@ The `BankAccount` class is currently responsible for both holding state and appl
 
 **Goal:**  
 Introduce a new `TransactionProcessor` class that handles applying transactions to accounts, separating that concern from the `BankAccount` itself.
+
+### 7. Problem: Add Fraud Detection Without Changing Core Logic
+
+**Problem:**  
+As requirements evolve, we need to block any single transfer over a configurable limit (e.g. for anti‑fraud). If we sprinkle checks directly into `BankAccount` or `TransactionProcessor`, we’ll violate **Single Responsibility** and **Open/Closed**—every new rule forces us to modify existing, tested classes.
+
+**Goal:**  
+Introduce a new `FraudDetectionProcessor` decorator that wraps an existing `TransactionProcessor` and enforces a maximum transfer amount, **without touching** `BankAccount` or `TransactionProcessor` code.
+
+---
+
+**Requirements:**
+- Create `FraudDetectionProcessor(delegate: TransactionProcessor, maxAllowed: Double)`
+- On `process(account, transaction)`:
+  - If `transaction` is a `SendMoneyTransaction` and `transaction.amount > maxAllowed`, throw an exception
+  - Otherwise delegate to the wrapped `TransactionProcessor`
+- Do not alter any existing classes
+
+---
+## 🚧 Problem In Progress

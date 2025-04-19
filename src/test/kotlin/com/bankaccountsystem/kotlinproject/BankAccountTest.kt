@@ -28,4 +28,16 @@ class BankAccountTest {
         }
         assertEquals("Insufficient balance", exception.message)
     }
+
+    @Test
+    fun `Transfer Funds should decrease senders balance and should increase receiver's balance`(){
+        val senderAccount = BankAccount("1234")
+        val receiverAccount = BankAccount("3456")
+        senderAccount.applyTransaction(DepositTransaction(100.0))
+
+        senderAccount.applyTransaction(SendMoneyTransaction(100.0, receiverAccount, senderAccount));
+        assertEquals(100.0, receiverAccount.getBalance())
+        assertEquals(0.0, senderAccount.getBalance())
+
+    }
 }

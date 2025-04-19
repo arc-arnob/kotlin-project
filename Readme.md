@@ -78,5 +78,8 @@ Design a `TransferTransaction` that allows transferring funds from one `BankAcco
 ## 🚧 Problem In Progress
 
 ### 6: Introduce a Transaction Processor (SRP + DIP + OCP)
-**Problem:**
-**Requirements**
+**Problem:**  
+The `BankAccount` class is currently responsible for both holding state and applying different types of transactions. As more behaviors are introduced (e.g. sending money, fraud checks, logging), this violates **Single Responsibility Principle (SRP)** and becomes harder to maintain and extend.
+
+**Goal:**  
+Introduce a new `TransactionProcessor` class that handles applying transactions to accounts, separating that concern from the `BankAccount` itself.

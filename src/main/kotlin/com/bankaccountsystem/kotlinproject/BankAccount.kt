@@ -3,30 +3,19 @@ package com.bankaccountsystem.kotlinproject
 
 class BankAccount(private val id: String) {
     private var balance: Double = 0.0;
+    private val transactions = mutableListOf<Transaction>()
 
     fun getBalance(): Double{
         return balance;
     }
 
-    fun deposit(amount: Double){
-        if (amount <= 0.0) {
-            throw IllegalArgumentException("Deposit amount must be greater than zero")
-        }
-        balance+= amount
+    fun getTransactions(): List<Transaction>  {
+        return transactions.toList();
     }
 
-    fun withdraw(amount: Double){
-        if (amount <= 0.0){
-            throw IllegalArgumentException("Withdraw amount must be greater than zero")
-        }
-        else if(amount > balance){
-            throw IllegalArgumentException("Insufficient balance")
-        }
-
-        else{
-            balance -= amount
-        }
-
+    fun applyTransaction(transaction: Transaction){
+        balance = transaction.applyTo(balance);
+        transactions.add(transaction)
     }
 
 }

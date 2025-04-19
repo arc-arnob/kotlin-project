@@ -2,60 +2,30 @@ package com.bankaccountsystem.kotlinproject
 
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 
 
 class BankAccountTest {
-
     @Test
-    fun newlyCreatedAccountHasZeroBalance() {
+    fun applyDepositTransactionShouldIncreaseBalance() {
         val account = BankAccount("123")
-        assertEquals(0.0, account.getBalance())
+        account.applyTransaction(DepositTransaction(200.0))
+        assertEquals(200.0, account.getBalance())
     }
 
     @Test
-    fun depositShouldIncreaseBalance(){
-        val account =  BankAccount("1234");
-        account.deposit(100.00);
-        assertEquals(100.0, account.getBalance())
-    }
-
-    @Test
-    fun depositShouldFailForNegativeAmount() {
+    fun applyWithdrawTransactionShouldDecreaseBalance() {
         val account = BankAccount("123")
-
-        val exception = org.junit.jupiter.api.assertThrows<IllegalArgumentException> {
-            account.deposit(-50.0)
+        account.applyTransaction(DepositTransaction(200.0))
+        account.applyTransaction(WithdrawTransaction(50.0))
+        assertEquals(150.0, account.getBalance())
+    }
+    @Test
+    fun applyWithdrawTransactionShouldFailIfInsufficientFunds() {
+        val account = BankAccount("123")
+        val exception = assertThrows<IllegalArgumentException> {
+            account.applyTransaction(WithdrawTransaction(50.0))
         }
-
-        assertEquals("Deposit amount must be greater than zero", exception.message)
-    }
-
-    @Test
-    fun withdrawShouldDecreaseBalance(){
-        val account =  BankAccount("1234");
-        account.deposit(100.00);
-        account.withdraw(80.00)
-        assertEquals(20.00, account.getBalance())
-    }
-
-    @Test
-    fun withdrawShouldFailForNegativeAmount() {
-        val account = BankAccount("123")
-
-        val exception = org.junit.jupiter.api.assertThrows<IllegalArgumentException> {
-            account.withdraw(-50.0)
-        }
-
-        assertEquals("Withdraw amount must be greater than zero", exception.message)
-    }
-    @Test
-    fun withdrawShouldFailForInsufficientFunds() {
-        val account = BankAccount("123")
-
-        val exception = org.junit.jupiter.api.assertThrows<IllegalArgumentException> {
-            account.withdraw(10.0)
-        }
-
         assertEquals("Insufficient balance", exception.message)
     }
 }
